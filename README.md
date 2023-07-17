@@ -1,13 +1,12 @@
-# Azure Synapse Analytics PoC Accelerator
+# Enterprise Insights For SAP Accelerator
 
 ![alt tag](https://raw.githubusercontent.com/shaneochotny/Azure-Synapse-Analytics-PoC\/main/Images/Synapse-Analytics-PoC-Architecture.gif)
 
 # Description
 
-Create a Synapse Analytics environment based on best practices to achieve a successful proof of concept. While settings can be adjusted, 
-the major deployment differences are based on whether or not you used Private Endpoints for connectivity. If you do not already use 
-Private Endpoints for other Azure deployments, it's discouraged to use them for a proof of concept as they have many other networking 
-depandancies than what can be configured here.
+Create a Synapse Analytics environment and deploys SAP Specific pipelines that migrate data to the Data Lake and then to a Synapse Dedicated Pool for reporting. It is a completely metadata driven process. You can configure what tables can be moved.
+
+The process supports multiple SAP systems.
 
 
 # How to Run
@@ -15,31 +14,19 @@ depandancies than what can be configured here.
 ### "Easy Button" Deployment
 The following commands should be executed from the Azure Cloud Shell at https://shell.azure.com using bash:
 ```bash
-git clone https://github.com/Tonio-Lora-Organization/Azure-Synapse-Analytics-PoC
-cd Azure-Synapse-Analytics-PoC
-bash deploySynapse.sh 
+git clone https://github.com/Tonio-Lora-Organization/Enterprise-Insights-For-SAP-Accelerator
+cd Enterprise-Insights-For-SAP-Accelerator
+bash deployAccelerator.sh 
 ```
 
 ### Advanced Deployment: Bicep
 You can manually configure the Bicep parameters and update default settings such as the Azure region, database name, credentials, and private endpoint integration. The following commands should be executed from the Azure Cloud Shell at https://shell.azure.com using bash:
 ```bash
-git clone https://github.com/Tonio-Lora-Organization/Azure-Synapse-Analytics-PoC
-cd Azure-Synapse-Analytics-PoC
+git clone https://github.com/Tonio-Lora-Organization/Enterprise-Insights-For-SAP-Accelerator
+cd Enterprise-Insights-For-SAP-Accelerator
 code Bicep/main.parameters.json
-az deployment sub create --template-file Bicep/main.bicep --parameters Bicep/main.parameters.json --name Azure-Synapse-Analytics-PoC --location eastus
-bash deploySynapse.sh 
-```
-
-### Advanced Deployment: Terraform
-You can manually configure the Terraform parameters and update default settings such as the Azure region, database name, credentials, and private endpoint integration. The following commands should be executed from the Azure Cloud Shell at https://shell.azure.com using bash:
-```bash
-git clone https://github.com/Tonio-Lora-Organization/Azure-Synapse-Analytics-PoC
-cd Azure-Synapse-Analytics-PoC
-code Terraform/terraform.tfvars
-terraform -chdir=Terraform init
-terraform -chdir=Terraform plan
-terraform -chdir=Terraform apply
-bash deploySynapse.sh 
+az deployment sub create --template-file Bicep/main.bicep --parameters Bicep/main.parameters.json --name Enterprise-Insights-For-SAP-Accelerator --location eastus
+bash deployAccelerator.sh 
 ```
 
 # What's Deployed

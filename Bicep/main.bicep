@@ -1,10 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//  Azure Synapse Analytics Proof of Concept Architecture: Bicep Template
+//  Enterprise Insights For SAP Architecture: Bicep Template
 //
-//    Create a Synapse Analytics environment based on best practices to achieve a successful proof of concept. While settings can be adjusted, 
-//    the major deployment differences are based on whether or not you used Private Endpoints for connectivity. If you do not already use 
-//    Private Endpoints for other Azure deployments, it's discouraged to use them for a proof of concept as they have many other networking 
+//    Create a Synapse Analytics environment and deploy fully parametrized SAP Pipeliens. 
+//    Default set of SAP tables is provided via a Metadata Azure SQL database 
 //    depandancies than what can be configured here.
 //
 //    Resources:

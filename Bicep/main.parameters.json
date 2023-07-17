@@ -6,7 +6,7 @@
       "value": "eastus"  
     },
     "resource_group_name": {
-      "value": "PoC-Synapse-Analytics"
+      "value": "Enterprise-Insights-for-SAP"
     },
     "synapse_sql_pool_name": {
       "value": "DataWarehouse" 
