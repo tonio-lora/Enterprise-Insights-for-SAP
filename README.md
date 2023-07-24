@@ -14,8 +14,8 @@ The process supports multiple SAP systems.
 ### "Easy Button" Deployment
 The following commands should be executed from the Azure Cloud Shell at https://shell.azure.com using bash:
 ```bash
-git clone https://github.com/Tonio-Lora-Organization/Enterprise-Insights-For-SAP-Accelerator
-cd Enterprise-Insights-For-SAP-Accelerator
+git clone https://github.com/tonio-lora/Enterprise-Insights-for-SAP
+cd Enterprise-Insights-for-SAP
 bash deployAccelerator.sh 
 ```
 

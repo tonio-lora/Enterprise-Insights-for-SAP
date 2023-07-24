@@ -48,10 +48,9 @@ fi
 azureSubscriptionName=$(az account show --query name --output tsv 2>&1)
 azureSubscriptionID=$(az account show --query id --output tsv 2>&1)
 azureUsername=$(az account show --query user.name --output tsv 2>&1)
-azureUsernameObjectId=$(az ad user show --id $azureUsername --query objectId --output tsv 2>&1)
+azureUsernameObjectId=$(az ad user show --id $azureUsername --query id --output tsv 2>&1)
 
 # Update a few Terraform and Bicep variables if they aren't configured by the user
-sed -i "s/REPLACE_SYNAPSE_AZURE_AD_ADMIN_UPN/${azureUsername}/g" Terraform/terraform.tfvars
 sed -i "s/REPLACE_SYNAPSE_AZURE_AD_ADMIN_OBJECT_ID/${azureUsernameObjectId}/g" Bicep/main.parameters.json
 
 # Check if there was a Bicep deployment
@@ -63,7 +62,6 @@ elif [ "$bicepDeploymentCheck" == "Failed" ] || [ "$bicepDeploymentCheck" == "Ca
     exit 1;
 fi
 
-# Check for Terraform if the deployment wasn't completed by Bicep
 if echo "$bicepDeploymentCheck" | grep -q "DeploymentNotFound"; then
     # There was no Bicep deployment so we're taking the easy button approach and deploying the Synapse
     # environment on behalf of the user via Bicep.
@@ -72,11 +70,12 @@ if echo "$bicepDeploymentCheck" | grep -q "DeploymentNotFound"; then
 
     # Bicep Deployment
     echo "Executing Bicep Deployment"
-        bicepDeployment=$(az deployment sub create --location eastus --template-file ./Bicep/main.bicep --parameters ./main.parameters.json --name Enterprise-Insights-for-SAP 2>&1)
+        bicepDeployment=$(az deployment sub create --location eastus --template-file ./Bicep/main.bicep --parameters ./Bicep/main.parameters.json --name Enterprise-Insights-for-SAP 2>&1)
     if ! echo "$bicepDeployment" | grep -q "Bicep Deployment has been successfully initialized!"; then
         echo "ERROR: Failed to perform Bicep Deployment" | tee -a deployAccelerator.log
         exit 1;
     fi
+fi
 
 echo "TODO: Existing Deployment - Need to continue working on it" | tee -a deployAccelerator.log
 exit 1
