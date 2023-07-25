@@ -50,7 +50,8 @@ azureSubscriptionID=$(az account show --query id --output tsv 2>&1)
 azureUsername=$(az account show --query user.name --output tsv 2>&1)
 azureUsernameObjectId=$(az ad user show --id $azureUsername --query id --output tsv 2>&1)
 
-# Update a few Terraform and Bicep variables if they aren't configured by the user
+# Update a Bicep variables if they aren't configured by the user
+sed -i "s/REPLACE_SYNAPSE_AZURE_AD_ADMIN_LOGIN/${azureUsername}/g" Bicep/main.parameters.json
 sed -i "s/REPLACE_SYNAPSE_AZURE_AD_ADMIN_OBJECT_ID/${azureUsernameObjectId}/g" Bicep/main.parameters.json
 
 # Check if there was a Bicep deployment

@@ -41,6 +41,9 @@ param synapse_sql_administrator_login string
 @secure()
 param synapse_sql_administrator_login_password string
 
+@description('Email for the Azure AD administrator of Synapse. This can also be a group, but only one value can be specified. (i.e.anlo@microsoft.com). "az account show --query user.name --output tsv')
+param synapse_azure_ad_admin_login string
+
 @description('Object ID (GUID) for the Azure AD administrator of Synapse. This can also be a group, but only one value can be specified. (i.e. XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXXXXX). "az ad user show --id "sochotny@microsoft.com" --query objectId --output tsv"')
 param synapse_azure_ad_admin_object_id string
 
@@ -140,6 +143,22 @@ module keyVault 'modules/keyVault.bicep' = {
     azure_region: azure_region
     synapse_workspace_managed_identity_principal_id: synapseAnalytics.outputs.synapse_workspace_managed_identity_principal_id
     synapse_workspace_managed_identity_tenant_id: synapseAnalytics.outputs.synapse_workspace_managed_identity_tenant_id
+  }
+  dependsOn: [
+    synapseAnalytics
+  ]
+}
+
+// Create SQL Server database for Metadata
+module sqlServer 'modules/sqlServer.bicep' = {
+  name: 'sqlServer'
+  scope: resourceGroup
+  params: {
+    suffix: suffix
+    azure_region: azure_region
+    synapse_azure_ad_admin_login: synapse_azure_ad_admin_login
+    synapse_azure_ad_admin_object_id: synapse_azure_ad_admin_object_id
+    synapse_workspace_managed_identity_tenant_id:synapseAnalytics.outputs.synapse_workspace_managed_identity_tenant_id
   }
   dependsOn: [
     synapseAnalytics

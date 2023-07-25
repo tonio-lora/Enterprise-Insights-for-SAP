@@ -17,6 +17,9 @@
     "synapse_sql_administrator_login_password": {
       "value": "Pass@word123" 
     },
+    "synapse_azure_ad_admin_login": {
+      "value": "REPLACE_SYNAPSE_AZURE_AD_ADMIN_LOGIN"
+    },
     "synapse_azure_ad_admin_object_id": {
       "value": "REPLACE_SYNAPSE_AZURE_AD_ADMIN_OBJECT_ID"
     },
