@@ -59,9 +59,10 @@ param private_endpoint_virtual_network_resource_group string
 @description('Name of the Resource Group that contains the Private DNS Zones for Storage and Synapse if Private Endpoints are enabled. (i.e. prod-network)')
 param private_endpoint_private_dns_zone_resource_group string
 
+
 // Add a random suffix to ensure global uniqueness among the resources created
 //   Bicep: https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/bicep-functions-string#uniquestring
-var suffix = '${substring(uniqueString(subscription().subscriptionId, deployment().name), 0, 3)}'
+var suffix = substring(uniqueString(subscription().subscriptionId, deployment().name), 0, 3)
 
 // Create the Resource Group
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
@@ -127,6 +128,21 @@ module synapseAnalytics 'modules/synapseAnalytics.bicep' = {
   dependsOn: [
     logAnalyticsWorkspace
     synapseStorageAccount
+  ]
+}
+
+// Create the Key Vault service
+module keyVault 'modules/keyVault.bicep' = {
+  name: 'keyVault'
+  scope: resourceGroup
+  params: {
+    suffix: suffix
+    azure_region: azure_region
+    synapse_workspace_managed_identity_principal_id: synapseAnalytics.outputs.synapse_workspace_managed_identity_principal_id
+    synapse_workspace_managed_identity_tenant_id: synapseAnalytics.outputs.synapse_workspace_managed_identity_tenant_id
+  }
+  dependsOn: [
+    synapseAnalytics
   ]
 }
 

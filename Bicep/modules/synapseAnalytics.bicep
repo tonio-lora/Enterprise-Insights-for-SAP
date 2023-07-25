@@ -347,3 +347,5 @@ resource synapseDevPrivateDnsZoneGroup 'Microsoft.Network/privateEndpoints/priva
 
 // Outputs for reference in the Post-Deployment Configuration
 output synapse_analytics_workspace_name string = synapseWorkspace.name
+output synapse_workspace_managed_identity_principal_id string = synapseWorkspace.identity.principalId
+output synapse_workspace_managed_identity_tenant_id string = synapseWorkspace.identity.tenantId
